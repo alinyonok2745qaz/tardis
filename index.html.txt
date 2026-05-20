@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Gamer Site</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin:0;
+      background:#121212;
+      color:#fff;
+    }
+    .hidden { display:none; }
+    .login-box {
+      width:300px;
+      margin:100px auto;
+      padding:20px;
+      background:#1e1e1e;
+      border-radius:10px;
+      box-shadow:0 0 15px rgba(0,0,0,0.7);
+      text-align:center;
+    }
+    .login-box input {
+      width:90%;
+      padding:10px;
+      margin:10px 0;
+      border:none;
+      border-radius:5px;
+    }
+    .login-box button {
+      width:95%;
+      padding:10px;
+      background:#3a3a3a;
+      color:#fff;
+      border:none;
+      border-radius:5px;
+      cursor:pointer;
+    }
+    .login-box button:hover {
+      background:#555;
+    }
+    .menu {
+      width:200px; background:#222; color:#fff;
+      position:fixed; top:0; left:-200px; height:100%;
+      transition:0.3s; padding-top:20px;
+    }
+    .menu.open { left:0; }
+    .menu a {
+      display:block; padding:10px; color:#fff; text-decoration:none;
+    }
+    .menu a:hover { background:#444; }
+    .hamburger {
+      font-size:30px; cursor:pointer; padding:10px;
+      background:#222; color:#fff;
+    }
+    .content { margin-left:50px; padding:20px; }
+    .achievement.locked { filter: grayscale(100%); opacity:0.5; }
+    .achievement.unlocked { filter:none; opacity:1; }
+    .game { border:1px solid #444; margin:10px; padding:10px; background:#1e1e1e; border-radius:8px; }
+    .game img { width:200px; border-radius:5px; }
+  </style>
+</head>
+<body>
+
+<!-- Экран входа -->
+<div id="login" class="login-box">
+  <h2>Вход</h2>
+  <input type="text" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Пароль">
+  <button id="loginBtn">Войти</button>
+</div>
+
+<!-- Сайт -->
+<div id="site" class="hidden">
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+  <div class="menu" id="menu">
+    <a href="#profile">Профиль</a>
+    <a href="#games">Мои игры</a>
+    <a href="#search">Поиск соигрока</a>
+    <a href="#achievements">Достижения</a>
+    <a href="#support">Поддержка</a>
+  </div>
+
+  <div class="content">
+    <h1 id="profile">Профиль</h1>
+    <p>Аватарка: <input type="file"></p>
+    <p>О себе: <input type="text"></p>
+    <p>Код Steam: <input type="text"></p>
+    <p>Друзья: пока пусто</p>
+
+    <h1 id="games">Мои игры</h1>
+    <!-- Игры -->
+    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg"><p>Counter-Strike 2 — шутер, 5x5 игроков. Free</p><a href="https://store.steampowered.com/app/730/">Steam</a></div>
+    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg"><p>Dota 2 — MOBA, 5x5 игроков. Free</p><a href="https://store.steampowered.com/app/570/">Steam</a></div>
+    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg"><p>PUBG — Battle Royale, 100 игроков. $29.99</p><a href="https://store.steampowered.com/app/578080/">Steam</a></div>
+    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg"><p>Apex Legends — Battle Royale, 60 игроков. Free</p><a href="https://store.steampowered.com/app/1172470/">Steam</a></div>
+    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/252490/header.jpg"><p>Rust — survival. $39.99</p><a href="https://store.steampowered.com/app/252490/">Steam</a></div>
+    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/739630/header.jpg"><p>Phasmophobia — хоррор-кооператив. $13.99</p><a href="https://store.steampowered.com/app/739630/">Steam</a></div>
+    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1466640/header.jpg"><p>REPO — экшен-адвенчура. Steam</p><a href="https://store.steampowered.com/app/1466640/">Steam</a></div>
+    <div class="game"><img src="https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/0e/Overwatch_logo.png" width="200"><p>Overwatch — командный шутер. Free</p><a href="https://playoverwatch.com/">Сайт</a></div>
+    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1568590/header.jpg"><p>Goose Goose Duck — социальная игра. Free</p><a href="https://store.steampowered.com/app/1568590/">Steam</a></div>
+    <div class="game"><img src="https://static.wikia.nocookie.net/valorant/images/4/4a/VALORANT_logo.png" width="200"><p>Valorant — тактический шутер. Free</p><a href="https://playvalorant.com/">Сайт</a></div>
+
+    <h1 id="search">Поиск соигрока</h1>
+    <button onclick="alert('Ты ищешь соигрока для CS2!')">CS2</button>
+    <button onclick="alert('Ты ищешь соигрока для Dota 2!')">Dota 2</button>
+    <button onclick="alert('Ты ищешь соигрока для PUBG!')">PUBG</button>
+    <button onclick="alert('Ты ищешь соигрока для Valorant!')">Valorant</button>
+    <button onclick="alert('Ты ищешь соигрока для Overwatch!')">Overwatch</button>
+
+    <h1 id="achievements">Достижения</h1>
+    <div><img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" class="achievement unlocked" width="100"><p>Первая победа</p></div>
+    <div><img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" class="achievement locked" width="100"><p>100 игр сыграно</p></div>
+    <div><img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" class="achievement locked" width="100"><p>Топ-1 в рейтинге</p></div>
+
+    <h1 id="support">Поддержка</h1>
+    <p>Email: alinyonok2745@gmail.com</p>
+    <p>Telegram: <a href="tel:+77082502269">+77082502269</a></p>
+    <p>Discord: @alinyonok2745qaz</p>
+  </div>
+</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById("menu").classList.toggle("open");
+  }
+  document.getElementById("loginBtn").addEventListener("click", function() {
+    let email = document.getElementById("email").value.trim();
+    let pass = document.getElementById("password").value.trim();
+    if(email !== "" && pass !== "") {
+      document.getElementById("login").classList.add("hidden");
+      document.getElementById("site").classList.remove("hidden");
+    } else {
+      alert("Введите email и пароль!");
+    }
+  });
+</script>
+
+</body>
+</html>
