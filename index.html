@@ -2,138 +2,704 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Gamer Site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tardis Gamer Site</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin:0;
-      background:#121212;
-      color:#fff;
+      margin: 0;
+      background: #121212;
+      color: #fff;
     }
-    .hidden { display:none; }
-    .login-box {
-      width:300px;
-      margin:100px auto;
-      padding:20px;
-      background:#1e1e1e;
-      border-radius:10px;
-      box-shadow:0 0 15px rgba(0,0,0,0.7);
-      text-align:center;
+    .hidden { display: none !important; }
+    
+    /* Окно входа / Регистрации */
+    .auth-container {
+      width: 90%;
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 30px;
+      background: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.7);
+      text-align: center;
+      box-sizing: border-box;
     }
-    .login-box input {
-      width:90%;
-      padding:10px;
-      margin:10px 0;
-      border:none;
-      border-radius:5px;
+    .auth-container input, .auth-container button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      box-sizing: border-box;
     }
-    .login-box button {
-      width:95%;
-      padding:10px;
-      background:#3a3a3a;
-      color:#fff;
-      border:none;
-      border-radius:5px;
-      cursor:pointer;
+    .auth-container input { background: #2a2a2a; color: #fff; }
+    .auth-container button { background: #3a3a3a; color: #fff; cursor: pointer; font-weight: bold; transition: 0.2s; }
+    .auth-container button:hover { background: #555; }
+    .social-auth {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      gap: 10px;
     }
-    .login-box button:hover {
-      background:#555;
-    }
+    .btn-discord { background: #5865F2 !important; }
+    .btn-steam { background: #171a21 !important; }
+    .toggle-auth { color: #aaa; cursor: pointer; text-decoration: underline; font-size: 14px; }
+
+    /* Боковое Меню */
     .menu {
-      width:200px; background:#222; color:#fff;
-      position:fixed; top:0; left:-200px; height:100%;
-      transition:0.3s; padding-top:20px;
+      width: 250px; background: #181818; color: #fff;
+      position: fixed; top: 0; left: -250px; height: 100%;
+      transition: 0.3s; padding-top: 60px; z-index: 10;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.5);
     }
-    .menu.open { left:0; }
+    .menu.open { left: 0; }
     .menu a {
-      display:block; padding:10px; color:#fff; text-decoration:none;
+      display: block; padding: 15px 20px; color: #bbb; text-decoration: none; font-size: 18px;
     }
-    .menu a:hover { background:#444; }
+    .menu a:hover { background: #2a2a2a; color: #fff; }
+    
     .hamburger {
-      font-size:30px; cursor:pointer; padding:10px;
-      background:#222; color:#fff;
+      font-size: 24px; cursor: pointer; padding: 15px 20px;
+      background: #181818; color: #fff; position: fixed; top: 0; left: 0; width: 100%; z-index: 9;
+      box-sizing: border-box; display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
-    .content { margin-left:50px; padding:20px; }
-    .achievement.locked { filter: grayscale(100%); opacity:0.5; }
-    .achievement.unlocked { filter:none; opacity:1; }
-    .game { border:1px solid #444; margin:10px; padding:10px; background:#1e1e1e; border-radius:8px; }
-    .game img { width:200px; border-radius:5px; }
+
+    /* Контент и переключение секций */
+    .content { margin-top: 60px; padding: 20px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+    .content section { display: none; animation: fadeIn 0.3s; }
+    .content section.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    h1 { border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 20px; }
+    
+    /* Приветственный экран без картинок */
+    .welcome-card {
+      background: #1e1e1e; padding: 30px; border-radius: 10px; text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333;
+    }
+    .welcome-card h2 { color: #00ff88; margin-top: 0; }
+    .popular-games-grid {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 25px;
+    }
+    .game-badge {
+      background: #252525; padding: 15px 25px; border-radius: 6px;
+      border: 1px solid #444; font-weight: bold; min-width: 120px;
+      transition: 0.3s; cursor: pointer; color: #eee;
+    }
+    .game-badge:hover { border-color: #00ff88; background: #2a2a2a; transform: translateY(-2px); color: #fff; }
+    .btn-primary {
+      background: #007bff; color: white; border: none; padding: 12px 24px;
+      border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 25px;
+    }
+    .btn-primary:hover { background: #0056b3; }
+
+    /* Профиль */
+    .profile-card { background: #1e1e1e; padding: 20px; border-radius: 8px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+    .avatar-container { text-align: center; }
+    .avatar-container img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #555; }
+    .profile-info { flex-grow: 1; display: flex; flex-direction: column; gap: 10px; min-width: 200px; }
+    .profile-info input, .profile-info textarea { background: #2a2a2a; color: #fff; border: none; padding: 10px; border-radius: 5px; width: 100%; box-sizing: border-box; }
+    
+    /* Друзья и Чат */
+    .friends-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+    .friend-item { background: #252525; padding: 10px 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+    .chat-btn { background: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 3px; cursor: pointer; transition: 0.2s;}
+    .chat-btn:hover { background: #0056b3; }
+
+    /* Окно чата */
+    .chat-window { background: #1e1e1e; border: 1px solid #444; border-radius: 8px; margin-top: 15px; padding: 15px; }
+    .chat-messages { height: 200px; overflow-y: auto; background: #121212; padding: 15px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px;}
+    .chat-message { padding: 8px 12px; border-radius: 15px; max-width: 80%; word-wrap: break-word; }
+    .chat-message.self { background: #007bff; align-self: flex-end; }
+    .chat-message.friend { background: #333; align-self: flex-start; }
+    .chat-input-zone { display: flex; gap: 5px; flex-wrap: wrap; }
+    .chat-input-zone input { flex-grow: 1; background: #2a2a2a; color: white; border: none; padding: 10px; border-radius: 5px; min-width: 150px;}
+    .chat-input-zone button { background: #444; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+    .chat-input-zone button:hover { background: #555; }
+
+    /* Раздел Мои игры */
+    .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    .game-card { background: #1e1e1e; border-radius: 8px; overflow: hidden; border: 1px solid #333; position: relative; padding-bottom: 15px; display: flex; flex-direction: column;}
+    .game-card img { width: 100%; height: 140px; object-fit: cover; }
+    .game-price { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 3px 8px; border-radius: 3px; font-size: 12px; font-weight: bold; color: #5cff5c;}
+    .game-details { padding: 15px; flex-grow: 1; }
+    .game-details h3 { margin: 0 0 5px 0; font-size: 18px; }
+    .game-details p { font-size: 13px; color: #aaa; margin: 0 0 10px 0; line-height: 1.4; }
+    .game-actions { display: flex; flex-direction: column; gap: 6px; padding: 0 15px; }
+    .game-actions button { background: #333; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-size: 13px; transition: 0.2s;}
+    .game-actions button:hover { background: #444; }
+    .btn-remove-fav { background: #5a2323 !important; }
+    .btn-remove-fav:hover { background: #7a3333 !important; }
+    .steam-link { display: block; text-align: center; margin-top: 12px; color: #66c0f4; text-decoration: none; font-size: 13px; }
+
+    /* Поиск соигрока */
+    .search-zone { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 20px;}
+    .search-btn { background: #2a2a2a; color: white; border: 2px solid #444; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.3s;}
+    .search-btn:hover { background: #ff4500; border-color: #ff4500; transform: translateY(-2px);}
+
+    /* Достижения */
+    .achievements-list { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;}
+    .achievement { background: #1e1e1e; padding: 15px; border-radius: 8px; text-align: center; width: 120px; border: 1px solid #333;}
+    .achievement img { width: 60px; height: 60px; margin-bottom: 10px;}
+    .achievement p { margin: 0; font-size: 14px;}
+    .achievement.locked { filter: grayscale(100%); opacity: 0.5; }
+
+    /* Избранное в профиле */
+    .fav-section { margin-top: 20px; background: #252525; padding: 15px; border-radius: 5px; }
+    .fav-section ul { margin: 10px 0 0 0; padding-left: 20px; color: #00ff88; }
+    .fav-section li { margin-bottom: 5px; }
   </style>
 </head>
 <body>
 
-<!-- Экран входа -->
-<div id="login" class="login-box">
-  <h2>Вход</h2>
-  <input type="text" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Пароль">
-  <button id="loginBtn">Войти</button>
+<div id="header" class="hamburger hidden" onclick="toggleMenu()">
+  <span>☰</span> Tardis Gamer
 </div>
 
-<!-- Сайт -->
-<div id="site" class="hidden">
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
-  <div class="menu" id="menu">
-    <a href="#profile">Профиль</a>
-    <a href="#games">Мои игры</a>
-    <a href="#search">Поиск соигрока</a>
-    <a href="#achievements">Достижения</a>
-    <a href="#support">Поддержка</a>
+<div class="menu" id="menu">
+  <a href="#" onclick="showSection('welcome'); toggleMenu()">Главная</a>
+  <a href="#" onclick="showSection('profile'); toggleMenu()">Профиль</a>
+  <a href="#" onclick="showSection('games'); toggleMenu()">Мои игры</a>
+  <a href="#" onclick="showSection('search'); toggleMenu()">Поиск соигрока</a>
+  <a href="#" onclick="showSection('achievements'); toggleMenu()">Достижения</a>
+  <a href="#" onclick="showSection('support'); toggleMenu()">Поддержка</a>
+  <a href="#" id="logoutBtn" style="color: #ff4d4d; margin-top: 30px; border-top: 1px solid #333;">Выйти из аккаунта</a>
+</div>
+
+<div id="authBlock" class="auth-container">
+  <div id="loginForm">
+    <h2>Вход на Tardis Gamer</h2>
+    <input type="text" id="loginEmail" placeholder="Email (gmail.com)">
+    <input type="password" id="loginPass" placeholder="Пароль">
+    <button onclick="loginEmail()">Войти</button>
+    <p class="toggle-auth" onclick="switchAuth(true)">Нет аккаунта? Зарегистрироваться</p>
+    <hr style="border-color:#333; margin:20px 0;">
+    <p style="font-size:14px; color:#aaa;">Или быстрый вход через:</p>
+    <div class="social-auth">
+      <button class="btn-discord" onclick="loginSocial('Discord')">Discord</button>
+      <button class="btn-steam" onclick="loginSocial('Steam')">Steam</button>
+    </div>
   </div>
 
-  <div class="content">
-    <h1 id="profile">Профиль</h1>
-    <p>Аватарка: <input type="file"></p>
-    <p>О себе: <input type="text"></p>
-    <p>Код Steam: <input type="text"></p>
-    <p>Друзья: пока пусто</p>
-
-    <h1 id="games">Мои игры</h1>
-    <!-- Игры -->
-    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg"><p>Counter-Strike 2 — шутер, 5x5 игроков. Free</p><a href="https://store.steampowered.com/app/730/">Steam</a></div>
-    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg"><p>Dota 2 — MOBA, 5x5 игроков. Free</p><a href="https://store.steampowered.com/app/570/">Steam</a></div>
-    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg"><p>PUBG — Battle Royale, 100 игроков. $29.99</p><a href="https://store.steampowered.com/app/578080/">Steam</a></div>
-    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg"><p>Apex Legends — Battle Royale, 60 игроков. Free</p><a href="https://store.steampowered.com/app/1172470/">Steam</a></div>
-    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/252490/header.jpg"><p>Rust — survival. $39.99</p><a href="https://store.steampowered.com/app/252490/">Steam</a></div>
-    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/739630/header.jpg"><p>Phasmophobia — хоррор-кооператив. $13.99</p><a href="https://store.steampowered.com/app/739630/">Steam</a></div>
-    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1466640/header.jpg"><p>REPO — экшен-адвенчура. Steam</p><a href="https://store.steampowered.com/app/1466640/">Steam</a></div>
-    <div class="game"><img src="https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/0e/Overwatch_logo.png" width="200"><p>Overwatch — командный шутер. Free</p><a href="https://playoverwatch.com/">Сайт</a></div>
-    <div class="game"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1568590/header.jpg"><p>Goose Goose Duck — социальная игра. Free</p><a href="https://store.steampowered.com/app/1568590/">Steam</a></div>
-    <div class="game"><img src="https://static.wikia.nocookie.net/valorant/images/4/4a/VALORANT_logo.png" width="200"><p>Valorant — тактический шутер. Free</p><a href="https://playvalorant.com/">Сайт</a></div>
-
-    <h1 id="search">Поиск соигрока</h1>
-    <button onclick="alert('Ты ищешь соигрока для CS2!')">CS2</button>
-    <button onclick="alert('Ты ищешь соигрока для Dota 2!')">Dota 2</button>
-    <button onclick="alert('Ты ищешь соигрока для PUBG!')">PUBG</button>
-    <button onclick="alert('Ты ищешь соигрока для Valorant!')">Valorant</button>
-    <button onclick="alert('Ты ищешь соигрока для Overwatch!')">Overwatch</button>
-
-    <h1 id="achievements">Достижения</h1>
-    <div><img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" class="achievement unlocked" width="100"><p>Первая победа</p></div>
-    <div><img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" class="achievement locked" width="100"><p>100 игр сыграно</p></div>
-    <div><img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" class="achievement locked" width="100"><p>Топ-1 в рейтинге</p></div>
-
-    <h1 id="support">Поддержка</h1>
-    <p>Email: alinyonok2745@gmail.com</p>
-    <p>Telegram: <a href="tel:+77082502269">+77082502269</a></p>
-    <p>Discord: @alinyonok2745qaz</p>
+  <div id="registerForm" class="hidden">
+    <h2>Регистрация</h2>
+    <input type="text" id="regEmail" placeholder="Ваш Email (@gmail.com)">
+    <input type="password" id="regPass" placeholder="Придумайте пароль">
+    <button onclick="registerEmail()">Создать аккаунт</button>
+    <p class="toggle-auth" onclick="switchAuth(false)">Уже есть аккаунт? Войти</p>
   </div>
+</div>
+
+<div id="siteBlock" class="content hidden">
+  
+  <section id="welcome" class="active">
+    <div class="welcome-card">
+      <h2>Добро пожаловать на персонализованный сайт Tardis!</h2>
+      <p style="font-size: 18px; color: #ccc;">Надеюсь что вы весело проведёте время!</p>
+      
+      <div style="margin-top: 30px;">
+        <h4 style="margin-bottom: 15px; color: #aaa;">Популярные игры сейчас:</h4>
+        <div class="popular-games-grid">
+          <div class="game-badge" onclick="showSection('games')">Grand Theft Auto V</div>
+          <div class="game-badge" onclick="showSection('games')">Minecraft</div>
+          <div class="game-badge" onclick="showSection('games')">The Witcher 3</div>
+          <div class="game-badge" onclick="showSection('games')">Cyberpunk 2077</div>
+        </div>
+      </div>
+      
+      <button class="btn-primary" onclick="showSection('profile')">Перейти в свой профиль</button>
+    </div>
+  </section>
+
+  <section id="profile">
+    <h1>Профиль пользователя</h1>
+    <div class="profile-card">
+      <div class="avatar-container">
+        <img id="userAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Аватар">
+        <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="changeAvatar(event)">
+        <button onclick="document.getElementById('avatarInput').click()" style="margin-top:10px; background:#444; color:#fff; border:none; border-radius:4px; padding:5px 10px; cursor:pointer;">Сменить фото</button>
+      </div>
+      <div class="profile-info">
+        <h2 id="profileName" style="margin:0; color: #00ff88;">Геймер</h2>
+        <textarea id="profileBio" placeholder="Расскажите о себе (ваши любимые жанры, время игры)..." rows="3" oninput="saveProfileData()"></textarea>
+        <input type="text" id="steamCode" placeholder="Ваш код дружбы Steam" oninput="saveProfileData()">
+      </div>
+    </div>
+
+    <div class="fav-section">
+      <h4>⭐ Избранные игры:</h4>
+      <ul id="favoritesList">
+        <li style="color:#aaa;">Вы пока не добавили игры в избранное. Сделайте это во вкладке "Мои игры".</li>
+      </ul>
+    </div>
+
+    <div style="margin-top:30px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        <h3 style="margin:0;">Мои друзья</h3>
+        <button onclick="addFriendPrompt()" style="background:#00ff88; color:#000; border:none; padding:8px 12px; border-radius:4px; cursor:pointer; font-weight:bold;">➕ Добавить друга</button>
+      </div>
+      <div class="friends-list" id="friendsContainer"></div>
+    </div>
+
+    <div id="chatBox" class="chat-window hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h4 style="margin:0;">💬 Чат с <span id="chatFriendName" style="color:#00ff88;"></span></h4>
+        <button onclick="closeChat()" style="background:none; border:none; color:#ff4d4d; font-size:16px; cursor:pointer; font-weight:bold;">Закрыть ✖</button>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-zone">
+        <input type="text" id="chatInput" placeholder="Введите сообщение..." onkeypress="handleEnter(event)">
+        <button onclick="sendChatMessage('text')">Отправить</button>
+        <button onclick="sendChatMessage('audio')" title="Записать аудио">🎤</button>
+        <button onclick="sendChatMessage('video')" title="Записать видео">📹</button>
+        <button onclick="sendChatMessage('sticker')" title="Отправить стикер">🖼️</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="games">
+    <h1>Мои игры</h1>
+    <p style="color:#aaa;">Список доступных игр. Вы можете добавлять и удалять их из избранного.</p>
+    <div class="games-grid" id="gamesGridContainer"></div>
+  </section>
+
+  <section id="search">
+    <h1>Поиск соигрока</h1>
+    <div style="background: #1e1e1e; padding: 20px; border-radius: 8px; text-align: center;">
+      <p style="font-size: 16px;">Нажми на игру, чтобы моментально отправить всем своим друзьям уведомление о том, что ты ищешь напарника!</p>
+      <div class="search-zone" id="searchZoneContainer"></div>
+    </div>
+  </section>
+
+  <section id="achievements">
+    <h1>Достижения</h1>
+    <div class="achievements-list">
+      <div class="achievement">
+        <img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" alt="ach">
+        <p>Первый вход</p>
+      </div>
+      <div class="achievement locked">
+        <img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" alt="ach">
+        <p>Завести 5 друзей</p>
+      </div>
+      <div class="achievement locked">
+        <img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" alt="ach">
+        <p>Сыграть 100 часов</p>
+      </div>
+      <div class="achievement locked">
+        <img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" alt="ach">
+        <p>Топ-1 в рейтинге</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="support">
+    <h1>Поддержка</h1>
+    <div style="background:#1e1e1e; padding:30px; border-radius:8px; line-height: 2; font-size: 16px;">
+      <h3 style="margin-top:0;">Свяжитесь с нами:</h3>
+      <p>📧 <b>Email:</b> <a href="mailto:alinyonok2745@gmail.com" style="color:#00ff88; text-decoration: none;">alinyonok2745@gmail.com</a></p>
+      <p>✈️ <b>Telegram:</b> <a href="https://t.me/+77082502269" target="_blank" style="color:#00ff88; text-decoration: none;">+77082502269</a></p>
+      <p>💬 <b>Discord:</b> <span style="background:#333; padding:5px 10px; border-radius:4px; font-family: monospace;">@alinyonok2745qaz</span></p>
+    </div>
+  </section>
+
 </div>
 
 <script>
+  // Обновленная база данных со стабильными баннерами игр из Steam
+  const gamesDatabase = [
+    {
+      id: 'CS2',
+      name: 'Counter-Strike 2',
+      price: 'FREE',
+      desc: 'Тактический командный шутер. Матчи 5х5. Крупнейший технический скачок в истории серии.',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg',
+      link: 'https://store.steampowered.com/app/730/'
+    },
+    {
+      id: 'Dota2',
+      name: 'Dota 2',
+      price: 'FREE',
+      desc: 'Легендарная MOBA стратегия. Команды по 5 человек, огромный выбор уникальных героев.',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg',
+      link: 'https://store.steampowered.com/app/570/'
+    },
+    {
+      id: 'PUBG',
+      name: 'PUBG: BATTLEGROUNDS',
+      price: 'FREE',
+      desc: 'Оригинальная королевская битва. Высаживайтесь, ищите лут и выживайте среди 100 игроков.',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg',
+      link: 'https://store.steampowered.com/app/578080/'
+    },
+    {
+      id: 'Overwatch2',
+      name: 'Overwatch 2',
+      price: 'FREE',
+      desc: 'Яркий командный экшен в формате 5v5 с постоянно растущим списком уникальных героев.',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2349470/header.jpg',
+      link: 'https://store.steampowered.com/app/2349470/'
+    },
+    {
+      id: 'REPO',
+      name: 'REPO',
+      price: '11.99$',
+      desc: 'Кооперативный инди-хоррор про сбор долгов и опасные заброшенные комплексы. Работайте сообща!',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/3111950/header.jpg',
+      link: 'https://store.steampowered.com/app/3111950/'
+    },
+    {
+      id: 'Phasmophobia',
+      name: 'Phasmophobia',
+      price: '13.99$',
+      desc: 'Психологический кооперативный хоррор до 4 игроков. Исследуйте паранормальное и ищите улики.',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/739630/header.jpg',
+      link: 'https://store.steampowered.com/app/739630/'
+    },
+    {
+      id: 'ApexLegends',
+      name: 'Apex Legends',
+      price: 'FREE',
+      desc: 'Динамичная королевская битва, где герои со сверхспособностями сражаются за славу и богатство.',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg',
+      link: 'https://store.steampowered.com/app/1172470/'
+    },
+    {
+      id: 'Rust',
+      name: 'Rust',
+      price: '39.99$',
+      desc: 'Бескомпромиссная игра на выживание. Справляйтесь с голодом, жаждой и рейдами других игроков.',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/252490/header.jpg',
+      link: 'https://store.steampowered.com/app/252490/'
+    },
+    {
+      id: 'Terraria',
+      name: 'Terraria',
+      price: '9.99$',
+      desc: 'Копайте, сражайтесь, исследуйте, стройте! В этой культовой 2D-песочнице мир — ваш холст.',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg',
+      link: 'https://store.steampowered.com/app/105600/'
+    },
+    {
+      id: 'LethalCompany',
+      name: 'Lethal Company',
+      price: '9.99$',
+      desc: 'Кооперативный симулятор сбора металлолома на заброшенных лунах. Выполняйте квоту Компании!',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1966720/header.jpg',
+      link: 'https://store.steampowered.com/app/1966720/'
+    },
+    {
+      id: 'Helldivers2',
+      name: 'Helldivers 2',
+      price: '39.99$',
+      desc: 'Быстрый и яростный командный шутер от третьего лица. Несите управляемую демократию галактике!',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/553850/header.jpg',
+      link: 'https://store.steampowered.com/app/553850/'
+    },
+    {
+      id: 'DbD',
+      name: 'Dead by Daylight',
+      price: '19.99$',
+      desc: 'Асимметричный хоррор экшен (4 против 1). Спасайтесь командой или выслеживайте выживших в роли маньяка.',
+      img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/381210/header.jpg',
+      link: 'https://store.steampowered.com/app/381210/'
+    }
+  ];
+
+  let currentUser = null;
+  let activeChatFriend = null;
+
+  window.onload = function() {
+    let savedUser = localStorage.getItem('gamer_user');
+    if (savedUser) {
+      currentUser = JSON.parse(savedUser);
+      enterSite();
+    }
+  }
+
+  function switchAuth(toRegister) {
+    document.getElementById('loginForm').classList.toggle('hidden', toRegister);
+    document.getElementById('registerForm').classList.toggle('hidden', !toRegister);
+  }
+
+  function showSection(sectionId) {
+    const sections = document.querySelectorAll('.content section');
+    sections.forEach(sec => sec.classList.remove('active'));
+    const target = document.getElementById(sectionId);
+    if(target) target.classList.add('active');
+  }
+
+  // Создание чистого профиля без друзей по умолчанию
+  function generateNewProfile(name) {
+    return {
+      username: name,
+      avatar: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+      bio: "Привет, я новый пользователь Tardis Gamer!",
+      steamCode: "",
+      favorites: [],
+      friends: [] 
+    };
+  }
+
+  function registerEmail() {
+    let email = document.getElementById('regEmail').value.trim();
+    let pass = document.getElementById('regPass').value.trim();
+
+    if(!email.endsWith('@gmail.com')) {
+      alert("Регистрация доступна только для почты @gmail.com!");
+      return;
+    }
+    if(pass.length < 4) {
+      alert("Пароль должен быть не менее 4 символов!");
+      return;
+    }
+
+    currentUser = generateNewProfile(email.split('@')[0]);
+    saveAndLogin();
+  }
+
+  function loginEmail() {
+    let email = document.getElementById('loginEmail').value.trim();
+    let pass = document.getElementById('loginPass').value.trim();
+
+    if(email === "" || pass === "") {
+      alert("Заполните все поля!");
+      return;
+    }
+
+    currentUser = generateNewProfile(email.includes('@') ? email.split('@')[0] : email);
+    saveAndLogin();
+  }
+
+  function loginSocial(platform) {
+    currentUser = generateNewProfile(platform === 'Discord' ? 'Discord_Hero' : 'Steam_Master');
+    if(platform === 'Steam') currentUser.steamCode = '123-456-789';
+    currentUser.bio = `Профиль синхронизирован через ${platform}.`;
+    saveAndLogin();
+  }
+
+  function saveAndLogin() {
+    localStorage.setItem('gamer_user', JSON.stringify(currentUser));
+    enterSite();
+  }
+
+  function enterSite() {
+    document.getElementById('authBlock').classList.add('hidden');
+    document.getElementById('header').classList.remove('hidden');
+    document.getElementById('siteBlock').classList.remove('hidden');
+
+    document.getElementById('profileName').textContent = currentUser.username;
+    document.getElementById('userAvatar').src = currentUser.avatar;
+    document.getElementById('profileBio').value = currentUser.bio || '';
+    document.getElementById('steamCode').value = currentUser.steamCode || '';
+
+    buildGamesGrid();
+    buildSearchButtons();
+    updateFavoritesUI();
+    renderFriends();
+    
+    showSection('welcome');
+  }
+
+  document.getElementById('logoutBtn').onclick = function() {
+    localStorage.removeItem('gamer_user');
+    location.reload();
+  }
+
   function toggleMenu() {
     document.getElementById("menu").classList.toggle("open");
   }
-  document.getElementById("loginBtn").addEventListener("click", function() {
-    let email = document.getElementById("email").value.trim();
-    let pass = document.getElementById("password").value.trim();
-    if(email !== "" && pass !== "") {
-      document.getElementById("login").classList.add("hidden");
-      document.getElementById("site").classList.remove("hidden");
-    } else {
-      alert("Введите email и пароль!");
+
+  function saveProfileData() {
+    currentUser.bio = document.getElementById('profileBio').value;
+    currentUser.steamCode = document.getElementById('steamCode').value;
+    localStorage.setItem('gamer_user', JSON.stringify(currentUser));
+  }
+
+  function changeAvatar(event) {
+    let file = event.target.files[0];
+    if (file) {
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        currentUser.avatar = e.target.result;
+        document.getElementById('userAvatar').src = e.target.result;
+        localStorage.setItem('gamer_user', JSON.stringify(currentUser));
+      }
+      reader.readAsDataURL(file);
     }
-  });
+  }
+
+  function buildGamesGrid() {
+    const grid = document.getElementById('gamesGridContainer');
+    grid.innerHTML = '';
+
+    gamesDatabase.forEach(game => {
+      const isFav = currentUser.favorites.includes(game.name);
+      
+      const card = document.createElement('div');
+      card.className = 'game-card';
+      card.innerHTML = `
+        <div class="game-price">${game.price}</div>
+        <img src="${game.img}" alt="${game.name}">
+        <div class="game-details">
+          <h3>${game.name}</h3>
+          <p>${game.desc}</p>
+        </div>
+        <div class="game-actions">
+          ${isFav 
+            ? `<button class="btn-remove-fav" onclick="toggleFavorite('${game.name}', false)">❌ Удалить из избранного</button>`
+            : `<button onclick="toggleFavorite('${game.name}', true)">⭐ Добавить в избранное</button>`
+          }
+          <button onclick="showGameInfo('${game.name}', '${game.desc}')">ℹ️ Информация об игре</button>
+        </div>
+        <a class="steam-link" href="${game.link}" target="_blank">Страница в Steam</a>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function buildSearchButtons() {
+    const zone = document.getElementById('searchZoneContainer');
+    zone.innerHTML = '';
+    
+    gamesDatabase.forEach(game => {
+      const btn = document.createElement('button');
+      btn.className = 'search-btn';
+      btn.textContent = `Искать в ${game.name}`;
+      btn.onclick = () => broadcastSearch(game.name);
+      zone.appendChild(btn);
+    });
+  }
+
+  function toggleFavorite(gameName, shouldAdd) {
+    if (shouldAdd) {
+      if (!currentUser.favorites.includes(gameName)) {
+        currentUser.favorites.push(gameName);
+        alert(`Игра ${gameName} успешно добавлена в избранное!`);
+      }
+    } else {
+      currentUser.favorites = currentUser.favorites.filter(g => g !== gameName);
+      alert(`Игра ${gameName} удалена из избранного.`);
+    }
+    
+    localStorage.setItem('gamer_user', JSON.stringify(currentUser));
+    buildGamesGrid();
+    updateFavoritesUI();
+  }
+
+  function showGameInfo(gameName, description) {
+    alert(`Информация об игре ${gameName}:\n\n${description}`);
+  }
+
+  function updateFavoritesUI() {
+    let list = document.getElementById('favoritesList');
+    list.innerHTML = '';
+    if (!currentUser.favorites || currentUser.favorites.length === 0) {
+      list.innerHTML = '<li style="color:#aaa;">Вы пока не добавили игры в избранное.</li>';
+    } else {
+      currentUser.favorites.forEach(game => {
+        let li = document.createElement('li');
+        li.textContent = game;
+        list.appendChild(li);
+      });
+    }
+  }
+
+  function addFriendPrompt() {
+    let friendName = prompt("Введите никнейм друга для добавления:");
+    if (friendName && friendName.trim() !== "") {
+      let name = friendName.trim();
+      if(currentUser.friends.includes(name)) {
+        alert("Этот пользователь уже у вас в друзьях!");
+        return;
+      }
+      currentUser.friends.push(name);
+      localStorage.setItem('gamer_user', JSON.stringify(currentUser));
+      renderFriends();
+      alert(`Пользователь ${name} добавлен в друзья!`);
+    }
+  }
+
+  function renderFriends() {
+    let container = document.getElementById('friendsContainer');
+    container.innerHTML = '';
+    
+    if(!currentUser.friends || currentUser.friends.length === 0) {
+      container.innerHTML = '<p style="color:#666; font-style:italic;">У вас пока нет друзей. Нажмите кнопку "Добавить друга".</p>';
+      return;
+    }
+
+    currentUser.friends.forEach(friend => {
+      let item = document.createElement('div');
+      item.className = 'friend-item';
+      item.innerHTML = `
+        <span style="font-size: 16px;">👤 <b>${friend}</b></span>
+        <button class="chat-btn" onclick="openChat('${friend}')">💬 Чат</button>
+      `;
+      container.appendChild(item);
+    });
+  }
+
+  function openChat(friend) {
+    activeChatFriend = friend;
+    document.getElementById('chatFriendName').textContent = friend;
+    document.getElementById('chatBox').classList.remove('hidden');
+    document.getElementById('chatMessages').innerHTML = `<div style="color:#888;font-size:12px;text-align:center;width:100%;">Начало диалога с ${friend}</div>`;
+  }
+
+  function closeChat() {
+    document.getElementById('chatBox').classList.add('hidden');
+    activeChatFriend = null;
+  }
+
+  function handleEnter(e) {
+    if (e.key === 'Enter') sendChatMessage('text');
+  }
+
+  function sendChatMessage(type) {
+    let msgContainer = document.getElementById('chatMessages');
+    let inputEl = document.getElementById('chatInput');
+    let messageHTML = '';
+
+    if (type === 'text') {
+      let text = inputEl.value.trim();
+      if (text === "") return;
+      messageHTML = `<div class="chat-message self">${text}</div>`;
+      inputEl.value = '';
+    } else if (type === 'audio') {
+      messageHTML = `<div class="chat-message self">🎤 <i>[Голосовое сообщение 0:04]</i></div>`;
+    } else if (type === 'video') {
+      messageHTML = `<div class="chat-message self">📹 <i>[Видеосообщение 0:08]</i></div>`;
+    } else if (type === 'sticker') {
+      messageHTML = `<div class="chat-message self">🖼️ <i>[Отправлен крутой стикер]</i></div>`;
+    }
+
+    msgContainer.innerHTML += messageHTML;
+    msgContainer.scrollTop = msgContainer.scrollHeight;
+
+    setTimeout(() => {
+      if (activeChatFriend) {
+        const replies = ["Гоу катать! 🎮", "Я сейчас занят, давай позже)", "Окей, понял!", "Запускаю комп..."];
+        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+        msgContainer.innerHTML += `<div class="chat-message friend">${randomReply}</div>`;
+        msgContainer.scrollTop = msgContainer.scrollHeight;
+      }
+    }, 1200);
+  }
+
+  function broadcastSearch(gameName) {
+    if(!currentUser.friends || currentUser.friends.length === 0) {
+      alert(`Система: Вы ищете напарника для ${gameName}, но в вашем профиле пока нет добавленных друзей, чтобы отправить им сигнал.`);
+      return;
+    }
+    alert(`📢 Уведомление успешно отправлено всем вашим друзьям (${currentUser.friends.length} чел.):\n\n"Пользователь ${currentUser.username} ищет напарника для игры в ${gameName}!"`);
+  }
 </script>
 
 </body>
