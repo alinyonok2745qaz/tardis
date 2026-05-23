@@ -5,110 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tardis Gamer Site</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #121212;
-      color: #fff;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; background: #121212; color: #fff; }
     .hidden { display: none !important; }
     
-    /* Окно входа / Регистрации */
-    .auth-container {
-      width: 90%;
-      max-width: 400px;
-      margin: 80px auto;
-      padding: 30px;
-      background: #1e1e1e;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.7);
-      text-align: center;
-      box-sizing: border-box;
-    }
-    .auth-container input, .auth-container button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
+    /* Авторизация */
+    .auth-container { width: 90%; max-width: 400px; margin: 80px auto; padding: 30px; background: #1e1e1e; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.7); text-align: center; box-sizing: border-box; }
+    .auth-container input, .auth-container button { width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 5px; box-sizing: border-box; }
     .auth-container input { background: #2a2a2a; color: #fff; }
     .auth-container button { background: #3a3a3a; color: #fff; cursor: pointer; font-weight: bold; transition: 0.2s; }
     .auth-container button:hover { background: #555; }
-    .social-auth {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-      gap: 10px;
-    }
-    .btn-discord { background: #5865F2 !important; }
-    .btn-steam { background: #171a21 !important; }
     .toggle-auth { color: #aaa; cursor: pointer; text-decoration: underline; font-size: 14px; }
 
-    /* Боковое Меню */
-    .menu {
-      width: 250px; background: #181818; color: #fff;
-      position: fixed; top: 0; left: -250px; height: 100%;
-      transition: 0.3s; padding-top: 60px; z-index: 10;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.5);
-    }
+    /* Меню */
+    .menu { width: 250px; background: #181818; color: #fff; position: fixed; top: 0; left: -250px; height: 100%; transition: 0.3s; padding-top: 60px; z-index: 10; box-shadow: 2px 0 10px rgba(0,0,0,0.5); }
     .menu.open { left: 0; }
-    .menu a {
-      display: block; padding: 15px 20px; color: #bbb; text-decoration: none; font-size: 18px;
-    }
+    .menu a { display: block; padding: 15px 20px; color: #bbb; text-decoration: none; font-size: 18px; }
     .menu a:hover { background: #2a2a2a; color: #fff; }
-    
-    .hamburger {
-      font-size: 24px; cursor: pointer; padding: 15px 20px;
-      background: #181818; color: #fff; position: fixed; top: 0; left: 0; width: 100%; z-index: 9;
-      box-sizing: border-box; display: flex; align-items: center; gap: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    }
+    .hamburger { font-size: 24px; cursor: pointer; padding: 15px 20px; background: #181818; color: #fff; position: fixed; top: 0; left: 0; width: 100%; z-index: 9; box-sizing: border-box; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
-    /* Контент и переключение секций */
+    /* Контент */
     .content { margin-top: 60px; padding: 20px; max-width: 1000px; margin-left: auto; margin-right: auto; }
     .content section { display: none; animation: fadeIn 0.3s; }
     .content section.active { display: block; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
     h1 { border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 20px; }
+    .welcome-card { background: #1e1e1e; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333; }
     
-    /* Приветственный экран */
-    .welcome-card {
-      background: #1e1e1e; padding: 30px; border-radius: 10px; text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333;
-    }
-    .welcome-card h2 { color: #00ff88; margin-top: 0; }
-    .popular-games-grid {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 25px;
-    }
-    .game-badge {
-      background: #252525; padding: 15px 25px; border-radius: 6px;
-      border: 1px solid #444; font-weight: bold; min-width: 120px;
-      transition: 0.3s; cursor: pointer; color: #eee;
-    }
-    .game-badge:hover { border-color: #00ff88; background: #2a2a2a; transform: translateY(-2px); color: #fff; }
-    .btn-primary {
-      background: #007bff; color: white; border: none; padding: 12px 24px;
-      border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 25px;
-    }
-    .btn-primary:hover { background: #0056b3; }
-
     /* Профиль */
     .profile-card { background: #1e1e1e; padding: 20px; border-radius: 8px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
-    .avatar-container { text-align: center; }
     .avatar-container img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #555; }
-    .profile-info { flex-grow: 1; display: flex; flex-direction: column; gap: 10px; min-width: 200px; }
-    .profile-info input, .profile-info textarea { background: #2a2a2a; color: #fff; border: none; padding: 10px; border-radius: 5px; width: 100%; box-sizing: border-box; }
     
-    .userid-badge { display: inline-block; background: #333; padding: 5px 10px; border-radius: 4px; font-family: monospace; color: #00ff88; font-weight: bold; margin-top: 5px;}
-
-    /* Блок уведомлений / заявок */
+    /* Уведомления и заявки */
     .requests-section { background: #2a1f1f; border: 1px solid #5a2323; padding: 15px; border-radius: 6px; margin-top: 20px;}
     .request-item { display: flex; justify-content: space-between; align-items: center; background: #1e1e1e; padding: 10px; border-radius: 4px; margin-top: 8px;}
     .btn-accept { background: #00ff88; color: black; border:none; padding: 6px 12px; border-radius:4px; cursor:pointer; font-weight:bold;}
@@ -117,60 +45,17 @@
     /* Друзья и Чат */
     .friends-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
     .friend-item { background: #252525; padding: 10px 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
-    .chat-btn { background: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 3px; cursor: pointer; transition: 0.2s;}
-    .chat-btn:hover { background: #0056b3; }
-
-    /* Окно чата */
     .chat-window { background: #1e1e1e; border: 1px solid #444; border-radius: 8px; margin-top: 15px; padding: 15px; }
-    .chat-messages { height: 250px; overflow-y: auto; background: #121212; padding: 15px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px;}
-    .chat-message { padding: 8px 12px; border-radius: 15px; max-width: 80%; word-wrap: break-word; color: white; }
+    .chat-messages { height: 200px; overflow-y: auto; background: #121212; padding: 15px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px;}
+    .chat-message { padding: 8px 12px; border-radius: 15px; max-width: 80%; color: white; }
     .chat-message.self { background: #007bff; align-self: flex-end; }
-    .chat-message.friend { background: #333; align-self: flex-start; }
-    .chat-message audio, .chat-message video { max-width: 100%; border-radius: 8px; margin-top: 5px; display: block;}
+    .chat-message audio, .chat-message video { max-width: 100%; display: block; margin-top: 5px; border-radius: 8px; }
     
-    .chat-input-zone { display: flex; gap: 5px; flex-wrap: wrap; align-items: center;}
-    .chat-input-zone input { flex-grow: 1; background: #2a2a2a; color: white; border: none; padding: 10px; border-radius: 5px; min-width: 150px;}
-    .chat-input-zone button { background: #444; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 14px;}
-    .chat-input-zone button:hover { background: #555; }
+    .chat-input-zone { display: flex; gap: 5px; }
+    .chat-input-zone input { flex-grow: 1; background: #2a2a2a; color: white; border: none; padding: 10px; border-radius: 5px; }
+    .chat-input-zone button { background: #444; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
     .btn-recording { background: #ff4d4d !important; animation: pulse 1s infinite; }
-
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.5; }
-      100% { opacity: 1; }
-    }
-
-    /* Раздел Мои игры */
-    .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-    .game-card { background: #1e1e1e; border-radius: 8px; overflow: hidden; border: 1px solid #333; position: relative; padding-bottom: 15px; display: flex; flex-direction: column;}
-    .game-card img { width: 100%; height: 140px; object-fit: cover; }
-    .game-price { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 3px 8px; border-radius: 3px; font-size: 12px; font-weight: bold; color: #5cff5c;}
-    .game-details { padding: 15px; flex-grow: 1; }
-    .game-details h3 { margin: 0 0 5px 0; font-size: 18px; }
-    .game-details p { font-size: 13px; color: #aaa; margin: 0 0 10px 0; line-height: 1.4; }
-    .game-actions { display: flex; flex-direction: column; gap: 6px; padding: 0 15px; }
-    .game-actions button { background: #333; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-size: 13px; transition: 0.2s;}
-    .game-actions button:hover { background: #444; }
-    .btn-remove-fav { background: #5a2323 !important; }
-    .btn-remove-fav:hover { background: #7a3333 !important; }
-    .steam-link { display: block; text-align: center; margin-top: 12px; color: #66c0f4; text-decoration: none; font-size: 13px; }
-
-    /* Поиск соигрока */
-    .search-zone { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 20px;}
-    .search-btn { background: #2a2a2a; color: white; border: 2px solid #444; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.3s;}
-    .search-btn:hover { background: #ff4500; border-color: #ff4500; transform: translateY(-2px);}
-
-    /* Достижения */
-    .achievements-list { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;}
-    .achievement { background: #1e1e1e; padding: 15px; border-radius: 8px; text-align: center; width: 120px; border: 1px solid #333;}
-    .achievement img { width: 60px; height: 60px; margin-bottom: 10px;}
-    .achievement p { margin: 0; font-size: 14px;}
-    .achievement.locked { filter: grayscale(100%); opacity: 0.5; }
-
-    /* Избранное в профиле */
-    .fav-section { margin-top: 20px; background: #252525; padding: 15px; border-radius: 5px; }
-    .fav-section ul { margin: 10px 0 0 0; padding-left: 20px; color: #00ff88; }
-    .fav-section li { margin-bottom: 5px; }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
   </style>
 </head>
 <body>
@@ -182,9 +67,6 @@
 <div class="menu" id="menu">
   <a href="#" onclick="showSection('welcome'); toggleMenu()">Главная</a>
   <a href="#" onclick="showSection('profile'); toggleMenu()">Профиль</a>
-  <a href="#" onclick="showSection('games'); toggleMenu()">Мои игры</a>
-  <a href="#" onclick="showSection('search'); toggleMenu()">Поиск соигрока</a>
-  <a href="#" onclick="showSection('achievements'); toggleMenu()">Достижения</a>
   <a href="#" onclick="showSection('support'); toggleMenu()">Поддержка</a>
   <a href="#" id="logoutBtn" style="color: #ff4d4d; margin-top: 30px; border-top: 1px solid #333;">Выйти из аккаунта</a>
 </div>
@@ -192,7 +74,7 @@
 <div id="authBlock" class="auth-container">
   <div id="loginForm">
     <h2>Вход на Tardis Gamer</h2>
-    <input type="text" id="loginEmail" placeholder="Никнейм или Email">
+    <input type="text" id="loginEmail" placeholder="Имя пользователя">
     <input type="password" id="loginPass" placeholder="Пароль">
     <button onclick="loginUser()">Войти</button>
     <p class="toggle-auth" onclick="switchAuth(true)">Нет аккаунта? Зарегистрироваться</p>
@@ -200,7 +82,7 @@
 
   <div id="registerForm" class="hidden">
     <h2>Регистрация</h2>
-    <input type="text" id="regEmail" placeholder="Ваш Никнейм / Email">
+    <input type="text" id="regEmail" placeholder="Придумайте имя пользователя">
     <input type="password" id="regPass" placeholder="Придумайте пароль">
     <button onclick="registerUser()">Создать аккаунт</button>
     <p class="toggle-auth" onclick="switchAuth(false)">Уже есть аккаунт? Войти</p>
@@ -208,128 +90,72 @@
 </div>
 
 <div id="siteBlock" class="content hidden">
-  
   <section id="welcome" class="active">
     <div class="welcome-card">
-      <h2>Добро пожаловать на персонализованный сайт Tardis!</h2>
-      <p style="font-size: 18px; color: #ccc;">Надеюсь что вы весело проведёте время!</p>
-      
-      <div style="margin-top: 30px;">
-        <h4 style="margin-bottom: 15px; color: #aaa;">Популярные игры сейчас:</h4>
-        <div class="popular-games-grid">
-          <div class="game-badge" onclick="showSection('games')">Grand Theft Auto V</div>
-          <div class="game-badge" onclick="showSection('games')">Minecraft</div>
-          <div class="game-badge" onclick="showSection('games')">The Witcher 3</div>
-          <div class="game-badge" onclick="showSection('games')">Cyberpunk 2077</div>
-        </div>
-      </div>
-      <button class="btn-primary" onclick="showSection('profile')">Перейти в свой профиль</button>
+      <h2>Добро пожаловать на сайт Tardis!</h2>
+      <p>Перейдите в профиль, чтобы добавлять друзей по их именам и отправлять сообщения.</p>
+      <button style="background:#00ff88; color:#000; padding:10px 20px; border:none; font-weight:bold; border-radius:5px; cursor:pointer;" onclick="showSection('profile')">В профиль 👤</button>
     </div>
   </section>
 
   <section id="profile">
-    <h1>Профиль пользователя</h1>
+    <h1>Мой Профиль</h1>
     <div class="profile-card">
       <div class="avatar-container">
-        <img id="userAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Аватар">
-        <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="changeAvatar(event)">
-        <button onclick="document.getElementById('avatarInput').click()" style="margin-top:10px; background:#444; color:#fff; border:none; border-radius:4px; padding:5px 10px; cursor:pointer;">Сменить фото</button>
+        <img id="userAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
       </div>
-      <div class="profile-info">
+      <div>
         <h2 id="profileName" style="margin:0; color: #00ff88;">Геймер</h2>
-        <div>Ваш уникальный ID системы: <span id="profileID" class="userid-badge">TRD-0000</span></div>
-        <textarea id="profileBio" placeholder="Расскажите о себе..." rows="2" oninput="saveProfileData()"></textarea>
+        <p style="color:#aaa; margin:5px 0 0 0;">Статус: В сети</p>
       </div>
     </div>
 
     <div id="requestsSection" class="requests-section hidden">
-      <h4 style="margin:0; color:#ffcc00;">🔔 Входящие заявки в друзья:</h4>
+      <h4 style="margin:0; color:#ffcc00;">🔔 Входящие запросы в друзья:</h4>
       <div id="requestsContainer"></div>
-    </div>
-
-    <div class="fav-section">
-      <h4>⭐ Избранные игры:</h4>
-      <ul id="favoritesList">
-        <li style="color:#aaa;">Вы пока не добавили игры в избранное.</li>
-      </ul>
     </div>
 
     <div style="margin-top:30px;">
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
         <h3 style="margin:0;">Мои друзья</h3>
-        <button onclick="addFriendPrompt()" style="background:#00ff88; color:#000; border:none; padding:8px 12px; border-radius:4px; cursor:pointer; font-weight:bold;">➕ Добавить по ID</button>
+        <button onclick="addFriendByName()" style="background:#00ff88; color:#000; border:none; padding:8px 12px; border-radius:4px; cursor:pointer; font-weight:bold;">➕ Добавить друга</button>
       </div>
       <div class="friends-list" id="friendsContainer"></div>
     </div>
 
     <div id="chatBox" class="chat-window hidden">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-        <h4 style="margin:0;">💬 Чат с <span id="chatFriendName" style="color:#00ff88;"></span></h4>
-        <button onclick="closeChat()" style="background:none; border:none; color:#ff4d4d; font-size:16px; cursor:pointer; font-weight:bold;">Закрыть ✖</button>
-      </div>
+      <h4>💬 Чат с <span id="chatFriendName" style="color:#00ff88;"></span></h4>
       <div class="chat-messages" id="chatMessages"></div>
       <div class="chat-input-zone">
-        <input type="text" id="chatInput" placeholder="Введите сообщение..." onkeypress="handleEnter(event)">
+        <input type="text" id="chatInput" placeholder="Введите сообщение...">
         <button onclick="sendTextMessage()">Отправить</button>
-        <button id="audioRecordBtn" onclick="toggleAudioRecord()" title="Записать аудио">🎤 Аудио</button>
-        <button id="videoRecordBtn" onclick="toggleVideoRecord()" title="Записать кружочек">📹 Видео</button>
+        <button id="audioRecordBtn" onclick="toggleAudioRecord()">🎤</button>
+        <button id="videoRecordBtn" onclick="toggleVideoRecord()">📹</button>
       </div>
-    </div>
-  </section>
-
-  <section id="games">
-    <h1>Мои игры</h1>
-    <div class="games-grid" id="gamesGridContainer"></div>
-  </section>
-
-  <section id="search">
-    <h1>Поиск соигрока</h1>
-    <div style="background: #1e1e1e; padding: 20px; border-radius: 8px; text-align: center;">
-      <p>Нажми на игру, чтобы отправить друзьям сигнал о поиске напарника!</p>
-      <div class="search-zone" id="searchZoneContainer"></div>
-    </div>
-  </section>
-
-  <section id="achievements">
-    <h1>Достижения</h1>
-    <div class="achievements-list">
-      <div class="achievement"><img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png"><p>Первый вход</p></div>
-      <div class="achievement locked"><img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png"><p>Завести 5 друзей</p></div>
     </div>
   </section>
 
   <section id="support">
     <h1>Поддержка</h1>
-    <div style="background:#1e1e1e; padding:30px; border-radius:8px; line-height: 2;">
-      📧 <b>Email:</b> alinyonok2745@gmail.com<br>
-      💬 <b>Discord:</b> @alinyonok2745qaz
+    <div style="background:#1e1e1e; padding:20px; border-radius:8px;">
+      📧 Email: alinyonok2745@gmail.com
     </div>
   </section>
 </div>
 
 <script>
-  // Игры из Steam
-  const gamesDatabase = [
-    { id: 'CS2', name: 'Counter-Strike 2', price: 'FREE', desc: 'Тактический командный шутер матчи 5х5.', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg', link: 'https://store.steampowered.com/app/730/' },
-    { id: 'Dota2', name: 'Dota 2', price: 'FREE', desc: 'Легендарная MOBA стратегия со множеством героев.', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg', link: 'https://store.steampowered.com/app/570/' },
-    { id: 'Minecraft', name: 'Minecraft', price: '26.99$', desc: 'Культовая песочница выживания и творчества.', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg', link: '#' }
-  ];
-
   let mediaRecorder = null;
   let audioChunks = [];
-  let videoStream = null;
   let isRecordingAudio = false;
   let isRecordingVideo = false;
+  let currentUsername = null;
 
-  // Инициализация базы данных пользователей в LocalStorage
-  if (!localStorage.getItem('tardis_users_db')) {
-    localStorage.setItem('tardis_users_db', JSON.stringify({}));
+  // База данных пользователей в локальной памяти браузера
+  if (!localStorage.getItem('tardis_users_local_db')) {
+    localStorage.setItem('tardis_users_local_db', JSON.stringify({}));
   }
-
-  function getUsersDB() { return JSON.parse(localStorage.getItem('tardis_users_db')); }
-  function saveUsersDB(db) { localStorage.setItem('tardis_users_db', JSON.stringify(db)); }
-
-  let currentUsername = null; // Ник текущей сессии
+  function getDB() { return JSON.parse(localStorage.getItem('tardis_users_local_db')); }
+  function saveDB(db) { localStorage.setItem('tardis_users_local_db', JSON.stringify(db)); }
 
   window.onload = function() {
     let sessionUser = sessionStorage.getItem('tardis_current_session');
@@ -349,24 +175,17 @@
     let pass = document.getElementById('regPass').value.trim();
     if(!name || pass.length < 4) return alert("Введите имя и пароль от 4 символов!");
 
-    let db = getUsersDB();
-    if(db[name]) return alert("Пользователь с таким никнеймом уже зарегистрирован!");
+    let db = getDB();
+    if(db[name]) return alert("Это имя пользователя уже занято!");
 
-    // Генерация случайного уникального ID
-    let randomID = 'TRD-' + Math.floor(1000 + Math.random() * 9000);
-    
     db[name] = {
       username: name,
       password: pass,
-      userId: randomID,
-      avatar: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-      bio: "Привет, я на Tardis Gamer!",
-      favorites: [],
-      friends: [],      // Список ников подтвержденных друзей
-      incomingRequests: [] // Список ников тех, кто кинул заявку
+      friends: [],
+      incomingRequests: []
     };
 
-    saveUsersDB(db);
+    saveDB(db);
     currentUsername = name;
     sessionStorage.setItem('tardis_current_session', name);
     enterSite();
@@ -376,8 +195,8 @@
     let name = document.getElementById('loginEmail').value.trim();
     let pass = document.getElementById('loginPass').value.trim();
     
-    let db = getUsersDB();
-    if(!db[name] || db[name].password !== pass) return alert("Неверный никнейм или пароль!");
+    let db = getDB();
+    if(!db[name] || db[name].password !== pass) return alert("Неверное имя или пароль!");
 
     currentUsername = name;
     sessionStorage.setItem('tardis_current_session', name);
@@ -388,41 +207,31 @@
     document.getElementById('authBlock').classList.add('hidden');
     document.getElementById('header').classList.remove('hidden');
     document.getElementById('siteBlock').classList.remove('hidden');
-
-    updateProfileUI();
-    buildGamesGrid();
-    buildSearchButtons();
+    updateUI();
     showSection('welcome');
   }
 
-  function updateProfileUI() {
-    let db = getUsersDB();
-    let user = db[currentUsername];
+  function updateUI() {
+    let db = getDB();
+    let me = db[currentUsername];
+    if(!me) return;
 
-    document.getElementById('profileName').textContent = user.username;
-    document.getElementById('profileID').textContent = user.userId;
-    document.getElementById('userAvatar').src = user.avatar;
-    document.getElementById('profileBio').value = user.bio || '';
+    document.getElementById('profileName').textContent = currentUsername;
 
-    // Отрендерить Избранное
-    let favList = document.getElementById('favoritesList');
-    favList.innerHTML = user.favorites.length ? '' : '<li>Пока пусто</li>';
-    user.favorites.forEach(g => favList.innerHTML += `<li>${g}</li>`);
-
-    // Отрендерить Заявки
+    // Отрендерить запросы в друзья
     let reqSection = document.getElementById('requestsSection');
     let reqContainer = document.getElementById('requestsContainer');
     reqContainer.innerHTML = '';
-    
-    if(user.incomingRequests && user.incomingRequests.length > 0) {
+
+    if (me.incomingRequests && me.incomingRequests.length > 0) {
       reqSection.classList.remove('hidden');
-      user.incomingRequests.forEach(senderName => {
+      me.incomingRequests.forEach(sender => {
         reqContainer.innerHTML += `
           <div class="request-item">
-            <span>👤 Пользователь <b>${senderName}</b> хочет добавить вас в друзья!</span>
+            <span>👤 Пользователь <b>${sender}</b> хочет добавить вас в друзья!</span>
             <div>
-              <button class="btn-accept" onclick="acceptFriend('${senderName}')">Принять</button>
-              <button class="btn-decline" onclick="declineFriend('${senderName}')">Отклонить</button>
+              <button class="btn-accept" onclick="acceptFriend('${sender}')">Принять</button>
+              <button class="btn-decline" onclick="declineFriend('${sender}')">Отклонить</button>
             </div>
           </div>`;
       });
@@ -430,74 +239,64 @@
       reqSection.classList.add('hidden');
     }
 
-    // Отрендерить Друзей
+    // Отрендерить список друзей
     let friendsContainer = document.getElementById('friendsContainer');
-    friendsContainer.innerHTML = user.friends.length ? '' : '<p style="color:#666; font-style:italic;">У вас пока нет друзей.</p>';
-    user.friends.forEach(f => {
+    friendsContainer.innerHTML = me.friends.length ? '' : '<p style="color:#555; font-style:italic;">У вас пока нет друзей.</p>';
+    
+    me.friends.forEach(f => {
       friendsContainer.innerHTML += `
         <div class="friend-item">
-          <span>👤 <b>${db[f] ? db[f].username : f}</b> (${db[f] ? db[f].userId : ''})</span>
-          <button class="chat-btn" onclick="openChat('${f}')">💬 Чат</button>
+          <span>👤 <b>${f}</b></span>
+          <button class="btn-accept" style="background:#007bff; color:white;" onclick="openChat('${f}')">💬 Чат</button>
         </div>`;
     });
   }
 
-  // Подача заявки по ID
-  function addFriendPrompt() {
-    let targetID = prompt("Введите уникальный ID пользователя (например, TRD-1234):");
-    if (!targetID) return;
-    targetID = targetID.trim();
+  // ДОБАВЛЕНИЕ ПО ИМЕНИ ПОЛЬЗОВАТЕЛЯ (БЕЗ БОТОВ)
+  function addFriendByName() {
+    let targetName = prompt("Введите точное имя пользователя, которого хотите добавить:");
+    if (!targetName) return;
+    targetName = targetName.trim();
 
-    let db = getUsersDB();
+    if (targetName === currentUsername) return alert("Вы не можете добавить самого себя!");
+
+    let db = getDB();
+    if (!db[targetName]) return alert("Пользователь с таким именем не зарегистрирован на сайте!");
+
     let me = db[currentUsername];
+    if (me.friends.includes(targetName)) return alert("Этот пользователь уже у вас в друзьях!");
+    if (db[targetName].incomingRequests.includes(currentUsername)) return alert("Вы уже отправили ему запрос!");
 
-    if(me.userId === targetID) return alert("Вы не можете добавить в друзья самого себя!");
-
-    // Ищем пользователя с таким ID в базе данных
-    let targetUser = null;
-    for (let key in db) {
-      if (db[key].userId === targetID) {
-        targetUser = db[key];
-        break;
-      }
-    }
-
-    if (!targetUser) return alert("Пользователь с таким ID не найден в системе!");
-    if (me.friends.includes(targetUser.username)) return alert("Этот пользователь уже у вас в друзьях!");
-    if (targetUser.incomingRequests.includes(currentUsername)) return alert("Вы уже отправили заявку этому пользователю!");
-
-    // Отправляем заявку в его массив входящих
-    targetUser.incomingRequests.push(currentUsername);
-    saveUsersDB(db);
-    alert(`Заявка успешно отправлена пользователю ${targetUser.username}!`);
+    // Отправляем реальный запрос пользователю в его массив
+    db[targetName].incomingRequests.push(currentUsername);
+    saveDB(db);
+    alert(`Запрос успешно отправлен пользователю ${targetName}!`);
   }
 
-  function acceptFriend(senderName) {
-    let db = getUsersDB();
-    let me = db[currentUsername];
-    let sender = db[senderName];
-
-    if (sender) {
-      if(!me.friends.includes(senderName)) me.friends.push(senderName);
-      if(!sender.friends.includes(currentUsername)) sender.friends.push(currentUsername);
-    }
+  function acceptFriend(sender) {
+    let db = getDB();
+    if(!db[currentUsername].friends.includes(sender)) db[currentUsername].friends.push(sender);
+    if(!db[sender].friends.includes(currentUsername)) db[sender].friends.push(currentUsername);
     
-    me.incomingRequests = me.incomingRequests.filter(name => name !== senderName);
-    saveUsersDB(db);
-    updateProfileUI();
+    db[currentUsername].incomingRequests = db[currentUsername].incomingRequests.filter(x => x !== sender);
+    saveDB(db);
+    updateUI();
   }
 
-  function declineFriend(senderName) {
-    let db = getUsersDB();
-    let me = db[currentUsername];
-    
-    me.incomingRequests = me.incomingRequests.filter(name => name !== senderName);
-    saveUsersDB(db);
-    updateProfileUI();
+  function declineFriend(sender) {
+    let db = getDB();
+    db[currentUsername].incomingRequests = db[currentUsername].incomingRequests.filter(x => x !== sender);
+    saveDB(db);
+    updateUI();
   }
 
-  // --- Реализация настоящей Аудио/Видео записи ---
+  function openChat(name) {
+    document.getElementById('chatFriendName').textContent = name;
+    document.getElementById('chatBox').classList.remove('hidden');
+    document.getElementById('chatMessages').innerHTML = `<div style="color:#444; text-align:center; font-size:12px;">Чат открыт</div>`;
+  }
 
+  // РЕАЛЬНАЯ ЗАПИСЬ АУДИО И ВИДЕО
   async function toggleAudioRecord() {
     let btn = document.getElementById('audioRecordBtn');
     if (!isRecordingAudio) {
@@ -513,14 +312,12 @@
         };
         mediaRecorder.start();
         isRecordingAudio = true;
-        btn.textContent = "⏹ Остановить";
         btn.classList.add('btn-recording');
       } catch (err) { alert("Нет доступа к микрофону!"); }
     } else {
       mediaRecorder.stop();
       mediaRecorder.stream.getTracks().forEach(t => t.stop());
       isRecordingAudio = false;
-      btn.textContent = "🎤 Аудио";
       btn.classList.remove('btn-recording');
     }
   }
@@ -531,7 +328,7 @@
       try {
         let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         mediaRecorder = new MediaRecorder(stream);
-        audioChunks = []; // используем тот же массив для данных
+        audioChunks = [];
         mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
         mediaRecorder.onstop = () => {
           let blob = new Blob(audioChunks, { type: 'video/mp4' });
@@ -540,101 +337,37 @@
         };
         mediaRecorder.start();
         isRecordingVideo = true;
-        btn.textContent = "⏹ Остановить";
         btn.classList.add('btn-recording');
-      } catch (err) { alert("Нет доступа к камере!"); }
+      } catch (err) { alert("Камера не найдена!"); }
     } else {
       mediaRecorder.stop();
       mediaRecorder.stream.getTracks().forEach(t => t.stop());
       isRecordingVideo = false;
-      btn.textContent = "📹 Видео";
       btn.classList.remove('btn-recording');
     }
   }
 
   function addMediaToChat(type, url) {
     let msgContainer = document.getElementById('chatMessages');
-    let html = '';
-    if(type === 'audio') {
-      html = `<div class="chat-message self">🎤 Голосовое:<audio src="${url}" controls></audio></div>`;
-    } else {
-      html = `<div class="chat-message self">📹 Видеосообщение:<video src="${url}" controls></video></div>`;
-    }
-    msgContainer.innerHTML += html;
+    msgContainer.innerHTML += type === 'audio' 
+      ? `<div class="chat-message self">🎤 Голосовое:<audio src="${url}" controls></audio></div>`
+      : `<div class="chat-message self">📹 Кружочек:<video src="${url}" controls autoplay loop></video></div>`;
     msgContainer.scrollTop = msgContainer.scrollHeight;
   }
 
   function sendTextMessage() {
     let input = document.getElementById('chatInput');
-    let text = input.value.trim();
-    if(!text) return;
-    
-    let msgContainer = document.getElementById('chatMessages');
-    msgContainer.innerHTML += `<div class="chat-message self">${text}</div>`;
+    if(!input.value.trim()) return;
+    document.getElementById('chatMessages').innerHTML += `<div class="chat-message self">${input.value}</div>`;
     input.value = '';
-    msgContainer.scrollTop = msgContainer.scrollHeight;
   }
 
-  // Сервисные функции без изменений
   function showSection(id) {
     document.querySelectorAll('.content section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
   }
   function toggleMenu() { document.getElementById("menu").classList.toggle("open"); }
-  function handleEnter(e) { if(e.key === 'Enter') sendTextMessage(); }
-  function closeChat() { document.getElementById('chatBox').classList.add('hidden'); }
-  function openChat(name) {
-    document.getElementById('chatFriendName').textContent = name;
-    document.getElementById('chatBox').classList.remove('hidden');
-    document.getElementById('chatMessages').innerHTML = `<div style="color:#666; text-align:center; font-size:12px;">Чат открыт</div>`;
-  }
-  function saveProfileData() {
-    let db = getUsersDB();
-    db[currentUsername].bio = document.getElementById('profileBio').value;
-    saveUsersDB(db);
-  }
-  function changeAvatar(event) {
-    let file = event.target.files[0];
-    if (file) {
-      let reader = new FileReader();
-      reader.onload = function(e) {
-        let db = getUsersDB();
-        db[currentUsername].avatar = e.target.result;
-        saveUsersDB(db);
-        updateProfileUI();
-      }
-      reader.readAsDataURL(file);
-    }
-  }
-  function buildGamesGrid() {
-    let grid = document.getElementById('gamesGridContainer');
-    grid.innerHTML = '';
-    let user = getUsersDB()[currentUsername];
-    gamesDatabase.forEach(g => {
-      let isFav = user.favorites.includes(g.name);
-      grid.innerHTML += `
-        <div class="game-card">
-          <img src="${g.img}">
-          <div class="game-details"><h3>${g.name}</h3><p>${g.desc}</p></div>
-          <div class="game-actions">
-            <button onclick="toggleFavorite('${g.name}', ${!isFav})">${isFav ? '❌ Извлечь' : '⭐ В избранное'}</button>
-          </div>
-        </div>`;
-    });
-  }
-  function toggleFavorite(name, add) {
-    let db = getUsersDB();
-    if(add) db[currentUsername].favorites.push(name);
-    else db[currentUsername].favorites = db[currentUsername].favorites.filter(x => x !== name);
-    saveUsersDB(db); updateProfileUI(); buildGamesGrid();
-  }
-  function buildSearchButtons() {
-    let zone = document.getElementById('searchZoneContainer');
-    zone.innerHTML = '';
-    gamesDatabase.forEach(g => {
-      zone.innerHTML += `<button class="search-btn" onclick="alert('Поиск запущен!')">Искать в ${g.name}</button>`;
-    });
-  }
+  
   document.getElementById('logoutBtn').onclick = function() {
     sessionStorage.removeItem('tardis_current_session');
     location.reload();
